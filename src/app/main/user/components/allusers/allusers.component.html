@@ -1,0 +1,99 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+    <div class="row" id="basic-table">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title text-primary">All Users</h4>
+          </div>
+
+          <ngx-datatable class="bootstrap core-bootstrap ml-1" [columnMode]="ColumnMode.force" [headerHeight]="40"
+            [footerHeight]="50" [rowHeight]="58" rowHeight="auto" [rows]="users" [selected]="chkBoxSelected">
+
+            <ngx-datatable-column name="Full Name" [width]="90">
+              <ng-template let-row="row" class="d-flex flex-column" ngx-datatable-cell-template>
+                <div>{{ row?.firstName }} {{ row?.lastName }}</div>
+                <span class="text-muted font-small-2">@{{ row?.username }}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Email" [width]="200">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{row?.email}}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Phone" [width]="50">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="badge badge-pill badge-primary">{{ row?.phoneNumber}}</div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Action" [width]="50">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="d-flex align-items-center">
+                  <div ngbDropdown container="body">
+                    <a ngbDropdownToggle href="javascript:void(0);" class="hide-arrow" id="dropdownBrowserState"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i data-feather="more-vertical" class="text-primary cursor-pointer mr-50"></i>
+                    </a>
+                    <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownBrowserState">
+                      <button routerLink="UserDetails/{{row.id}}" type="button" class="btn btn-flat-primary btn-sm" rippleEffect>
+                        <i data-feather="file-text" class="mr-50"></i> Details
+                      </button>
+                      <button (click)="modalOpenDanger(modalDanger, row?.id)" type="button"
+                        class="btn btn-flat-danger btn-sm" rippleEffect>
+                        <i data-feather="trash-2" class="mr-50"></i> Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+
+          <!-- <div class="col-lg-12">
+            <ngb-pagination class="d-flex justify-content-end" [collectionSize]="totalPages" [(page)]="pagePosition"
+              [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="pageChanged($event)">
+              <ng-template ngbPaginationFirst>First</ng-template>
+              <ng-template ngbPaginationPrevious><span [data-feather]="'chevron-left'"
+                  [class]="'font-weight-bolder'"></span>Prev
+              </ng-template>
+              <ng-template ngbPaginationNext>Next<span [data-feather]="'chevron-right'"
+                  [class]="'font-weight-bolder'"></span>
+              </ng-template>
+              <ng-template ngbPaginationLast>Last</ng-template>
+            </ngb-pagination>
+          </div> -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-danger d-inline-block">
+  <!-- Modal -->
+  <ng-template #modalDanger let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Confirm</h5>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      Are you sure you want to delete the candidat ?
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+        Cancel
+      </button>
+      <button type="button" class="btn btn-danger" (click)="deleteCandidat()" rippleEffect>
+        Delete
+      </button>
+    </div>
+  </ng-template>
+</div>
